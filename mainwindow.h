@@ -32,13 +32,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void updateTempHumiLig();
-    void processMsgFromSerial(QByteArray);
-    void changeRelayState(unsigned char, unsigned char);
+
 signals:
     void addLog(QString);
 
 private slots:
-    void readTimer();
+    void processMsgFromSerial(QByteArray);
 
     void on_btn_open_serial_clicked();
 

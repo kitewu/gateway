@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ultra = new Ultra();
 
     connect(ui->horizontalSlider_pwm, SIGNAL(valueChanged(int)), this, SLOT(onPwmValueChange(int)));
-    connect(serial_server->getTimer(), SIGNAL(timeout()), this, SLOT(readTimer()));
+    connect(this->serial_server, SIGNAL(receiveMsgFromSerial(QByteArray)), this, SLOT(processMsgFromSerial(QByteArray)));
     connect(this, SIGNAL(addLog(QString)), this, SLOT(showLog(QString)));
     connect(this->socket_server, SIGNAL(receiveMsgFromSocket(QString)), this, SLOT(processMsgFromSocket(QString)));
 }
@@ -43,16 +43,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::readTimer()
-{
-    QByteArray buff;
-    serial_server->readFromSerial(buff);
-    if(buff.isEmpty())
-        return;
-    emit addLog(buff.toHex());
-    processMsgFromSerial(buff);
 }
 
 void MainWindow::on_btn_open_serial_clicked()
@@ -132,6 +122,7 @@ void MainWindow::on_btn_relay1_close_clicked()
 
 void MainWindow::processMsgFromSerial(QByteArray msg)
 {
+    emit addLog(msg.toHex());
     //温湿亮度
     if(msg[3] == 0x02 && msg[4] == 0x01)
     {
@@ -246,5 +237,28 @@ void MainWindow::onPwmValueChange(int value)
 
 void MainWindow::processMsgFromSocket(QString msg)
 {
-    qDebug() << msg;
+    if(msg == "0")
+    {
+        ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_GREEN);
+        ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_BLACK);
+        ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_BLACK);
+        serial_server->writeToSerial(Motor::MSG_MOTOR_STOP);
+        motor->setState(0);
+    }
+    else if(msg == "1")
+    {
+        ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_GREEN);
+        ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_BLACK);
+        ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_BLACK);
+        serial_server->writeToSerial(Motor::MSG_MOTOR_FORE);
+        motor->setState(1);
+    }
+    else if(msg == "2")
+    {
+        ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_GREEN);
+        ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_BLACK);
+        ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_BLACK);
+        serial_server->writeToSerial(Motor::MSG_MOTOR_BACK);
+        motor->setState(2);
+    }
 }

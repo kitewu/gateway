@@ -21,7 +21,8 @@ void SocketService::readMsg()
     while (i.hasNext())
     {
         QString msg = i.next()->readAll();
-        emit receiveMsgFromSocket(msg);
+        if(msg.length() != 0)
+            emit receiveMsgFromSocket(msg);
     }
 }
 

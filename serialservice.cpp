@@ -7,16 +7,17 @@ SerialService::SerialService(QObject *parent) :
 {
     read_timer = new QTimer();
     read_timer->start(READTIME);
+    connect(this->read_timer, SIGNAL(timeout()), this, SLOT(readFromSerial()));
 }
 
-qint64 SerialService::readFromSerial(QByteArray &byte)
+void SerialService::readFromSerial()
 {
     if(my_com&&OPEN == com_state)
     {
-        byte = my_com->readAll();
-        return byte.length();
+        QByteArray byte = my_com->readAll();
+        if(byte.length() != 0)
+            emit receiveMsgFromSerial(byte);
     }
-    return -1;
 }
 
 int SerialService::writeToSerial(const QByteArray &byte)
