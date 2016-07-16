@@ -1,24 +1,18 @@
 #ifndef PWM_H
 #define PWM_H
 
-#include <QObject>
+#include "enddevice.h"
 
-class Pwm : public QObject
+class Pwm : public EndDevice
 {
-    Q_OBJECT
 public:
-    explicit Pwm(QObject *parent = 0);
-    void setPwmState(int);
-    int getPwmState();
+    explicit Pwm();
     void setRange(int);
     int getRange();
-signals:
-    
-public slots:
 
 private:
-    int pwm_state;
     int range;
+
 public:
     static QByteArray RANGE;
     static QByteArray MSG_PWM;

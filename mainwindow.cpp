@@ -91,7 +91,7 @@ void MainWindow::on_btn_motor_f_clicked()
     ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_GREEN);
     ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_BLACK);
     ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    motor->setMotorState(1);
+    motor->setState(1);
     emit addLog(QString::number(serial_server->writeToSerial(Motor::MSG_MOTOR_FORE)));
 }
 
@@ -100,7 +100,7 @@ void MainWindow::on_btn_motor_b_clicked()
     ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_GREEN);
     ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_BLACK);
     ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    motor->setMotorState(2);
+    motor->setState(2);
     emit addLog(QString::number(serial_server->writeToSerial(Motor::MSG_MOTOR_BACK)));
 }
 
@@ -109,7 +109,7 @@ void MainWindow::on_btn_motor_stop_clicked()
     ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_GREEN);
     ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_BLACK);
     ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    motor->setMotorState(0);
+    motor->setState(0);
     emit addLog(QString::number(serial_server->writeToSerial(Motor::MSG_MOTOR_STOP)));
 }
 
@@ -117,22 +117,16 @@ void MainWindow::on_btn_relay1_open_clicked()
 {
     ui->btn_relay1_open->setStyleSheet(BACKGROUND_COLOR_GREEN);
     ui->btn_relay1_close->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    relays->setRelayState(1);
-    Relays::MSG_RELAY[4] = 0x01;
-    Relays::MSG_RELAY[5] = 0x01;
-    Relays::MSG_RELAY[6] = 0x54;
-    serial_server->writeToSerial(Relays::MSG_RELAY);
+    relays->setState(1);
+    serial_server->writeToSerial(Relays::MSG_RELAY_OPEN);
 }
 
 void MainWindow::on_btn_relay1_close_clicked()
 {
     ui->btn_relay1_close->setStyleSheet(BACKGROUND_COLOR_GREEN);
     ui->btn_relay1_open->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    relays->setRelayState(0);
-    Relays::MSG_RELAY[4] = 0x01;
-    Relays::MSG_RELAY[5] = 0x00;
-    Relays::MSG_RELAY[6] = 0x53;
-    serial_server->writeToSerial(Relays::MSG_RELAY);
+    relays->setState(0);
+    serial_server->writeToSerial(Relays::MSG_RELAY_CLOSE);
 }
 
 void MainWindow::processMsg(QByteArray &msg)
@@ -148,13 +142,13 @@ void MainWindow::processMsg(QByteArray &msg)
     {
         if(msg[5] == 0x01)
         {
-            touch->setTouchState(1);
+            touch->setState(1);
             ui->label_touch->setPalette(pe_red);
             ui->label_touch->setText("touch");
         }
         else if(msg[5] == 0x00)
         {
-            touch->setTouchState(0);
+            touch->setState(0);
             ui->label_touch->setPalette(pe_black);
             ui->label_touch->setText("no touch");
         }
@@ -164,13 +158,13 @@ void MainWindow::processMsg(QByteArray &msg)
     {
         if(msg[5] == 0x01)
         {
-            smoke->setSmokeState(1);
+            smoke->setState(1);
             ui->label_fire->setPalette(pe_red);
             ui->label_fire->setText("smoke");
         }
         else if(msg[5] == 0x00)
         {
-            smoke->setSmokeState(0);
+            smoke->setState(0);
             ui->label_fire->setPalette(pe_black);
             ui->label_fire->setText("no smoke");
         }
@@ -180,13 +174,13 @@ void MainWindow::processMsg(QByteArray &msg)
     {
         if(msg[5] == 0x01)
         {
-            infray->setInfRayState(1);
+            infray->setState(1);
             ui->label_inf_ray->setPalette(pe_red);
             ui->label_inf_ray->setText("signal");
         }
         else if(msg[5] == 0x00)
         {
-            infray->setInfRayState(0);
+            infray->setState(0);
             ui->label_inf_ray->setPalette(pe_black);
             ui->label_inf_ray->setText("no signal");
         }
@@ -196,13 +190,13 @@ void MainWindow::processMsg(QByteArray &msg)
     {
         if(msg[5] == 0x01)
         {
-            shake->setShakeState(1);
+            shake->setState(1);
             ui->label_shake->setPalette(pe_red);
             ui->label_shake->setText("shake");
         }
         else if(msg[5] == 0x00)
         {
-            shake->setShakeState(0);
+            shake->setState(0);
             ui->label_shake->setPalette(pe_black);
             ui->label_shake->setText("no shake");
         }
@@ -212,7 +206,7 @@ void MainWindow::processMsg(QByteArray &msg)
     {
         int len = msg[5] * 256 + msg[6];
         ui->label_ultra->setText(QString::number(len));
-        ultra->setLength(len);
+        ultra->setState(len);
     }
 }
 
@@ -220,7 +214,7 @@ void MainWindow::on_btn_pwm_close_clicked()
 {
     ui->btn_pwm_close->setStyleSheet(BACKGROUND_COLOR_GREEN);
     ui->btn_pwm_open->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    pwm->setPwmState(0);
+    pwm->setState(0);
     Pwm::MSG_PWM[4] = 0x00;
     Pwm::MSG_PWM[5] = 0x50;
     serial_server->writeToSerial(Pwm::MSG_PWM);
@@ -230,7 +224,7 @@ void MainWindow::on_btn_pwm_open_clicked()
 {
     ui->btn_pwm_open->setStyleSheet(BACKGROUND_COLOR_GREEN);
     ui->btn_pwm_close->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    pwm->setPwmState(1);
+    pwm->setState(1);
     unsigned char range = Pwm::RANGE[pwm->getRange()];
     Pwm::MSG_PWM[4] = range;
     Pwm::MSG_PWM[5] = 0x50 + range;
@@ -240,7 +234,7 @@ void MainWindow::on_btn_pwm_open_clicked()
 void MainWindow::onPwmValueChange(int value)
 {
     pwm->setRange(value);
-    if(pwm->getPwmState())//如果是打开的，发送消息改变值
+    if(pwm->getState())//如果是打开的，发送消息改变值
     {
         unsigned char range = Pwm::RANGE[value];
         Pwm::MSG_PWM[4] = range;

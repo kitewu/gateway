@@ -1,24 +1,12 @@
 #ifndef TOUCH_H
 #define TOUCH_H
 
-#include <QObject>
+#include "enddevice.h"
 
-class Touch : public QObject
+class Touch : public EndDevice
 {
-    Q_OBJECT
 public:
-    explicit Touch(QObject *parent = 0);
-    void setTouchState(int);
-    int getTouchState();
-signals:
-    
-public slots:
-
-private:
-    int touch_state;
-public:
-    const static QByteArray MSG_TOUCH;
-    const static QByteArray MSG_NO_TOUCH;
+    explicit Touch();
 };
 
 #endif // TOUCH_H

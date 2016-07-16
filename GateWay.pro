@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     infray.cpp \
     shake.cpp \
     pwm.cpp \
-    ultra.cpp
+    ultra.cpp \
+    enddevice.cpp
 
 HEADERS  += mainwindow.h \
     posix_qextserialport.h \
@@ -46,6 +47,7 @@ HEADERS  += mainwindow.h \
     infray.h \
     shake.h \
     pwm.h \
-    ultra.h
+    ultra.h \
+    enddevice.h
 
 FORMS    += mainwindow.ui

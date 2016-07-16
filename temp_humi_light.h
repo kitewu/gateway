@@ -2,20 +2,17 @@
 #define TEMP_HUMI_LIGHT_H
 
 #include <QObject>
+#include "enddevice.h"
 
-class Temp_Humi_Light : public QObject
+class Temp_Humi_Light : public EndDevice
 {
-    Q_OBJECT
 public:
-    explicit Temp_Humi_Light(QObject *parent = 0);
+    explicit Temp_Humi_Light();
     void setValue(QByteArray&);
     void setValue(int, int, float);
     int getTemperature();
     int getHumidity();
     float getLight();
-signals:
-    
-public slots:
 
 private :
     int temperature;

@@ -1,23 +1,16 @@
 #ifndef RELAYS_H
 #define RELAYS_H
 
-#include <QObject>
+#include "enddevice.h"
 
-class Relays : public QObject
+class Relays : public EndDevice
 {
-    Q_OBJECT
 public:
-    explicit Relays(QObject *parent = 0);
-    int getRelayState();
-    void setRelayState(int);
-signals:
-    
-public slots:
+    explicit Relays();
 
-private:
-    int relay_state;
 public:
-    static QByteArray MSG_RELAY;
+    const static QByteArray MSG_RELAY_CLOSE;
+    const static QByteArray MSG_RELAY_OPEN;
 };
 
 #endif // RELAYS_H

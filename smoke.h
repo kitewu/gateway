@@ -1,21 +1,12 @@
 #ifndef SMOKE_H
 #define SMOKE_H
 
-#include <QObject>
+#include "enddevice.h"
 
-class Smoke : public QObject
+class Smoke : public EndDevice
 {
-    Q_OBJECT
 public:
-    explicit Smoke(QObject *parent = 0);
-    void setSmokeState(int);
-    int getSmokeState();
-signals:
-    
-public slots:
-
-private:
-    int smoke_state;
+    explicit Smoke();
 };
 
 #endif // SMOKE_H

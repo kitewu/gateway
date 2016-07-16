@@ -1,7 +1,6 @@
 #include "temp_humi_light.h"
 
-Temp_Humi_Light::Temp_Humi_Light(QObject *parent) :
-    QObject(parent)
+Temp_Humi_Light::Temp_Humi_Light()
 {
     temperature = 0;
     humidity = 0;

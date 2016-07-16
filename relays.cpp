@@ -1,19 +1,8 @@
 #include "relays.h"
 
-Relays::Relays(QObject *parent) :
-    QObject(parent),
-    relay_state(0)
+Relays::Relays()
 {
 }
 
-int Relays::getRelayState()
-{
-    return relay_state;
-}
-
-void Relays::setRelayState(int state)
-{
-    this->relay_state = state;
-}
-
-QByteArray Relays::MSG_RELAY("\x40\x07\x01\x0A\x00\x00\x52", 7);
+const QByteArray Relays::MSG_RELAY_CLOSE("\x40\x07\x01\x0A\x01\x00\x53", 7);
+const QByteArray Relays::MSG_RELAY_OPEN("\x40\x07\x01\x0A\x01\x01\x54", 7);

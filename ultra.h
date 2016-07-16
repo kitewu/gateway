@@ -1,21 +1,12 @@
 #ifndef ULTRA_H
 #define ULTRA_H
 
-#include <QObject>
+#include "enddevice.h"
 
-class Ultra : public QObject
+class Ultra : public EndDevice
 {
-    Q_OBJECT
 public:
-    explicit Ultra(QObject *parent = 0);
-    void setLength(int);
-    int getLength();
-signals:
-    
-public slots:
-
-private:
-    int length;
+    explicit Ultra();
 };
 
 #endif // ULTRA_H

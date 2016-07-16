@@ -1,20 +1,12 @@
 #ifndef INFRAY_H
 #define INFRAY_H
 
-#include <QObject>
+#include "enddevice.h"
 
-class InfRay : public QObject
+class InfRay : public EndDevice
 {
-    Q_OBJECT
 public:
-    explicit InfRay(QObject *parent = 0);
-    void setInfRayState(int);
-    int getInfRayState();
-signals:
-    
-public slots:
-private:
-    int inf_ray_state;
+    explicit InfRay();
 };
 
 #endif // INFRAY_H

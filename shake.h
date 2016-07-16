@@ -1,20 +1,12 @@
 #ifndef SHAKE_H
 #define SHAKE_H
 
-#include <QObject>
+#include "enddevice.h"
 
-class Shake : public QObject
+class Shake : public EndDevice
 {
-    Q_OBJECT
 public:
-    explicit Shake(QObject *parent = 0);
-    void setShakeState(int);
-    int getShakeState();
-signals:
-    
-public slots:
-private:
-    int shake_state;
+    explicit Shake();
 };
 
 #endif // SHAKE_H
