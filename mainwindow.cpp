@@ -226,7 +226,7 @@ void MainWindow::on_btn_pwm_open_clicked()
 void MainWindow::onPwmValueChange(int value)
 {
     pwm->setRange(value);
-    if(pwm->getState())//如果是打开的，发送消息改变值
+    if(pwm->getState())//如果是打开的，发送消息改变值，否则不执行
     {
         unsigned char range = Pwm::RANGE[value];
         Pwm::MSG_PWM[4] = range;
@@ -237,6 +237,7 @@ void MainWindow::onPwmValueChange(int value)
 
 void MainWindow::processMsgFromSocket(QString msg)
 {
+    //测试用，无协议
     if(msg == "0")
     {
         ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_GREEN);

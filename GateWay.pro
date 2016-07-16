@@ -4,7 +4,7 @@
 # @auther: wushaoling sdust China
 # @desc:implements the function of control or read
 #       temperature\light\humidity\ultrasound\relay\touch\smoke\motor\shake and so on
-#       enddevice
+#       enddevice, using socket and serialport communication
 # @linux version: Linux skzh 3.0.8-EmbedSky #7 PREEMPT Tue Sep 2 17:34:43 CST 2014 armv7l GNU/Linux
 # @make: make clean qmake-arm make
 # @running: ./GateWay -qws
