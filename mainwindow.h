@@ -32,17 +32,18 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void updateTempHumiLig();
-    void processMsg(QByteArray&);
+    void processMsgFromSerial(QByteArray);
     void changeRelayState(unsigned char, unsigned char);
 signals:
     void addLog(QString);
 
-public slots:
+private slots:
     void readTimer();
+
     void on_btn_open_serial_clicked();
+
     void showLog(QString);
 
-private slots:
     void on_btn_close_serial_clicked();
 
     void on_btn_motor_f_clicked();
@@ -60,6 +61,8 @@ private slots:
     void on_btn_pwm_open_clicked();
 
     void onPwmValueChange(int);
+
+    void processMsgFromSocket(QString);
 private:
     Ui::MainWindow *ui;
     SerialService *serial_server;

@@ -14,7 +14,7 @@ public:
     explicit SocketService(QObject *parent = 0);
     
 signals:
-    
+    void receiveMsgFromSocket(QString);
 public slots:
     void readMsg();
     void sendMsg();

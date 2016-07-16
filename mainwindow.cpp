@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     pe_red.setColor(QPalette::WindowText,Qt::red);
 
     serial_server = new SerialService();
-    //socket_server = new SocketServer();
+    socket_server = new SocketService();
     temp_humi_light = new Temp_Humi_Light();
     motor = new Motor();
     relays = new Relays();
@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->horizontalSlider_pwm, SIGNAL(valueChanged(int)), this, SLOT(onPwmValueChange(int)));
     connect(serial_server->getTimer(), SIGNAL(timeout()), this, SLOT(readTimer()));
     connect(this, SIGNAL(addLog(QString)), this, SLOT(showLog(QString)));
+    connect(this->socket_server, SIGNAL(receiveMsgFromSocket(QString)), this, SLOT(processMsgFromSocket(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -51,7 +52,7 @@ void MainWindow::readTimer()
     if(buff.isEmpty())
         return;
     emit addLog(buff.toHex());
-    processMsg(buff);
+    processMsgFromSerial(buff);
 }
 
 void MainWindow::on_btn_open_serial_clicked()
@@ -129,7 +130,7 @@ void MainWindow::on_btn_relay1_close_clicked()
     serial_server->writeToSerial(Relays::MSG_RELAY_CLOSE);
 }
 
-void MainWindow::processMsg(QByteArray &msg)
+void MainWindow::processMsgFromSerial(QByteArray msg)
 {
     //温湿亮度
     if(msg[3] == 0x02 && msg[4] == 0x01)
@@ -241,4 +242,9 @@ void MainWindow::onPwmValueChange(int value)
         Pwm::MSG_PWM[5] = 0x50 + range;
         serial_server->writeToSerial(Pwm::MSG_PWM);
     }
+}
+
+void MainWindow::processMsgFromSocket(QString msg)
+{
+    qDebug() << msg;
 }

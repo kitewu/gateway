@@ -17,7 +17,12 @@ void SocketService::acceptConnection()
 
 void SocketService::readMsg()
 {
-
+    QListIterator<QTcpSocket*> i(clients_list);
+    while (i.hasNext())
+    {
+        QString msg = i.next()->readAll();
+        emit receiveMsgFromSocket(msg);
+    }
 }
 
 void SocketService::sendMsg()
