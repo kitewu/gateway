@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>676</width>
+    <width>706</width>
     <height>482</height>
    </rect>
   </property>
@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>120</width>
-      <height>80</height>
+      <y>0</y>
+      <width>121</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -29,30 +29,33 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="btn_open_serial">
+    <widget class="QPushButton" name="btn_serial">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>10</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>open</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_12">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>92</width>
-       <height>27</height>
+       <width>31</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
-      <string>打开串口</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btn_close_serial">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>92</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>关闭串口</string>
+      <string>串口</string>
      </property>
     </widget>
    </widget>
@@ -60,9 +63,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>100</y>
-      <width>120</width>
-      <height>111</height>
+      <y>60</y>
+      <width>121</width>
+      <height>131</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -75,184 +78,70 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>10</y>
+       <y>30</y>
        <width>92</width>
        <height>27</height>
       </rect>
      </property>
      <property name="text">
-      <string>电机正转</string>
+      <string>正转</string>
      </property>
     </widget>
     <widget class="QPushButton" name="btn_motor_b">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>40</y>
+       <y>60</y>
        <width>92</width>
        <height>27</height>
       </rect>
      </property>
      <property name="text">
-      <string>电机反转</string>
+      <string>反转</string>
      </property>
     </widget>
     <widget class="QPushButton" name="btn_motor_stop">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>70</y>
+       <y>90</y>
        <width>92</width>
        <height>27</height>
       </rect>
      </property>
      <property name="text">
-      <string>电机停止</string>
+      <string>停止</string>
      </property>
     </widget>
-   </widget>
-   <widget class="QFrame" name="frame_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>230</y>
-      <width>121</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QPushButton" name="btn_relay1_open">
+    <widget class="QLabel" name="label_13">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>40</x>
        <y>10</y>
-       <width>92</width>
-       <height>27</height>
+       <width>31</width>
+       <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>打开继电器1</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btn_relay1_close">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>50</y>
-       <width>92</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>关闭继电器1</string>
+      <string>电机</string>
      </property>
     </widget>
    </widget>
    <widget class="QTextEdit" name="text_log">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>10</y>
-      <width>321</width>
-      <height>401</height>
+      <x>360</x>
+      <y>0</y>
+      <width>331</width>
+      <height>421</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QFrame" name="frame_4">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>10</y>
-      <width>201</width>
-      <height>101</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>10</y>
-       <width>41</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>温度</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>40</y>
-       <width>31</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>湿度</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="lcd_temp">
-     <property name="geometry">
-      <rect>
-       <x>80</x>
-       <y>10</y>
-       <width>81</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="lcd_humi">
-     <property name="geometry">
-      <rect>
-       <x>80</x>
-       <y>40</y>
-       <width>81</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="lcd_lig">
-     <property name="geometry">
-      <rect>
-       <x>80</x>
-       <y>70</y>
-       <width>81</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>70</y>
-       <width>31</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>亮度</string>
-     </property>
-    </widget>
    </widget>
    <widget class="QFrame" name="frame_5">
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>120</y>
+      <y>0</y>
       <width>201</width>
       <height>51</height>
      </rect>
@@ -279,7 +168,7 @@
     <widget class="QFrame" name="frame_7">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>120</x>
        <y>10</y>
        <width>71</width>
        <height>31</height>
@@ -295,7 +184,7 @@
     <widget class="QLabel" name="label_touch">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>120</x>
        <y>10</y>
        <width>71</width>
        <height>31</height>
@@ -310,7 +199,7 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>180</y>
+      <y>60</y>
       <width>201</width>
       <height>51</height>
      </rect>
@@ -325,9 +214,9 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>0</y>
+       <y>10</y>
        <width>71</width>
-       <height>51</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -337,7 +226,7 @@
     <widget class="QFrame" name="frame_8">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>120</x>
        <y>10</y>
        <width>71</width>
        <height>31</height>
@@ -368,7 +257,7 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>240</y>
+      <y>130</y>
       <width>201</width>
       <height>51</height>
      </rect>
@@ -395,9 +284,9 @@
     <widget class="QFrame" name="frame_10">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>120</x>
        <y>10</y>
-       <width>81</width>
+       <width>71</width>
        <height>31</height>
       </rect>
      </property>
@@ -426,7 +315,7 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>300</y>
+      <y>200</y>
       <width>201</width>
       <height>51</height>
      </rect>
@@ -453,9 +342,9 @@
     <widget class="QFrame" name="frame_12">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>120</x>
        <y>10</y>
-       <width>81</width>
+       <width>71</width>
        <height>31</height>
       </rect>
      </property>
@@ -470,7 +359,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>81</width>
+        <width>61</width>
         <height>31</height>
        </rect>
       </property>
@@ -480,94 +369,13 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_13">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>360</y>
-      <width>201</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="label_8">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>41</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>调光灯</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btn_pwm_open">
-     <property name="geometry">
-      <rect>
-       <x>50</x>
-       <y>0</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>打开</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btn_pwm_close">
-     <property name="geometry">
-      <rect>
-       <x>131</x>
-       <y>0</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>关闭</string>
-     </property>
-    </widget>
-    <widget class="QSlider" name="horizontalSlider_pwm">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>20</y>
-       <width>161</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_9">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>30</y>
-       <width>31</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>亮度</string>
-     </property>
-    </widget>
-   </widget>
    <widget class="QFrame" name="frame_14">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>330</y>
-      <width>120</width>
-      <height>80</height>
+      <x>140</x>
+      <y>270</y>
+      <width>201</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -579,10 +387,10 @@
     <widget class="QLabel" name="label_10">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>10</y>
+       <x>10</x>
+       <y>0</y>
        <width>81</width>
-       <height>20</height>
+       <height>51</height>
       </rect>
      </property>
      <property name="text">
@@ -592,9 +400,9 @@
     <widget class="QFrame" name="frame_15">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>101</width>
+       <x>100</x>
+       <y>10</y>
+       <width>91</width>
        <height>31</height>
       </rect>
      </property>
@@ -620,7 +428,7 @@
      <widget class="QLabel" name="label_11">
       <property name="geometry">
        <rect>
-        <x>70</x>
+        <x>60</x>
         <y>6</y>
         <width>31</width>
         <height>21</height>
@@ -632,13 +440,334 @@
      </widget>
     </widget>
    </widget>
+   <widget class="QFrame" name="frame_16">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>190</y>
+      <width>121</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="btn_light_4">
+     <property name="geometry">
+      <rect>
+       <x>41</x>
+       <y>100</y>
+       <width>71</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>open</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_light_3">
+     <property name="geometry">
+      <rect>
+       <x>41</x>
+       <y>70</y>
+       <width>71</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>open</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_light_2">
+     <property name="geometry">
+      <rect>
+       <x>41</x>
+       <y>40</y>
+       <width>71</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>open</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_light_1">
+     <property name="geometry">
+      <rect>
+       <x>41</x>
+       <y>10</y>
+       <width>71</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>open</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>灯1</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_15">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>46</y>
+       <width>31</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>灯2</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_16">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>76</y>
+       <width>31</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>灯3</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_17">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>灯4</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>330</y>
+      <width>121</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="btn_relay">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>10</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>open</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_18">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>10</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>继电器</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_17">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>390</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>6</y>
+       <width>31</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>温度</string>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="lcd_temp">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>0</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_18">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>390</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLCDNumber" name="lcd_humi">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>0</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>6</y>
+       <width>31</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>湿度</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_19">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>390</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>6</y>
+       <width>31</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>亮度</string>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="lcd_lig">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>0</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_4">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>330</y>
+      <width>201</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>41</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>调光灯</string>
+     </property>
+    </widget>
+    <widget class="QSlider" name="horizontalSlider_pwm">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>161</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>676</width>
+     <width>706</width>
      <height>25</height>
     </rect>
    </property>

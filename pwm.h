@@ -7,11 +7,6 @@ class Pwm : public EndDevice
 {
 public:
     explicit Pwm();
-    void setRange(int);
-    int getRange();
-
-private:
-    int range;
 
 public:
     static QByteArray RANGE;

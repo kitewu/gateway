@@ -1,18 +1,7 @@
 #include "pwm.h"
 
-Pwm::Pwm() :
-    range(1)
+Pwm::Pwm()
 {
-}
-
-void Pwm::setRange(int range)
-{
-    this->range = range;
-}
-
-int Pwm::getRange()
-{
-    return range;
 }
 
 QByteArray Pwm::RANGE("\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09", 10);

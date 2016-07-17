@@ -6,10 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->btn_close_serial->setStyleSheet(BACKGROUND_COLOR_GREEN);
-    ui->btn_relay1_close->setStyleSheet(BACKGROUND_COLOR_GREEN);
     ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_GREEN);
-    ui->btn_pwm_close->setStyleSheet(BACKGROUND_COLOR_GREEN);
     ui->lcd_humi->setNumDigits(8);
     ui->lcd_humi->setPalette(Qt::black);
     ui->lcd_temp->setNumDigits(8);
@@ -33,11 +30,12 @@ MainWindow::MainWindow(QWidget *parent) :
     infray = new InfRay();
     pwm = new Pwm();
     ultra = new Ultra();
+    shake = new Shake();
 
-    connect(ui->horizontalSlider_pwm, SIGNAL(valueChanged(int)), this, SLOT(onPwmValueChange(int)));
+    connect(ui->horizontalSlider_pwm, SIGNAL(valueChanged(int)), this, SLOT(changePwm(int)));
     connect(this->serial_server, SIGNAL(receiveMsgFromSerial(QByteArray)), this, SLOT(processMsgFromSerial(QByteArray)));
-    connect(this, SIGNAL(addLog(QString)), this, SLOT(showLog(QString)));
     connect(this->socket_server, SIGNAL(receiveMsgFromSocket(QString)), this, SLOT(processMsgFromSocket(QString)));
+    connect(this, SIGNAL(addLog(QString)), this, SLOT(showLog(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -45,29 +43,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_btn_open_serial_clicked()
-{
-    ui->btn_open_serial->setStyleSheet(BACKGROUND_COLOR_GREEN);
-    ui->btn_close_serial->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    if(serial_server->openCom())
-        emit addLog("open serial port success");
-    else
-        emit addLog("open serial port failed");
-}
-
 void MainWindow::showLog(QString log)
 {
     ui->text_log->append(log);
-}
-
-void MainWindow::on_btn_close_serial_clicked()
-{
-    ui->btn_close_serial->setStyleSheet(BACKGROUND_COLOR_GREEN);
-    ui->btn_open_serial->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    if(serial_server->closeCom())
-        emit addLog("close serial port success");
-    else
-        emit addLog("close serial port failed");
 }
 
 void MainWindow::updateTempHumiLig()
@@ -77,52 +55,10 @@ void MainWindow::updateTempHumiLig()
     ui->lcd_lig->display(QString::number(temp_humi_light->getLight(), 'f', 1));
 }
 
-void MainWindow::on_btn_motor_f_clicked()
-{
-    ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_GREEN);
-    ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    motor->setState(1);
-    emit addLog(QString::number(serial_server->writeToSerial(Motor::MSG_MOTOR_FORE)));
-}
-
-void MainWindow::on_btn_motor_b_clicked()
-{
-    ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_GREEN);
-    ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    motor->setState(2);
-    emit addLog(QString::number(serial_server->writeToSerial(Motor::MSG_MOTOR_BACK)));
-}
-
-void MainWindow::on_btn_motor_stop_clicked()
-{
-    ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_GREEN);
-    ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    motor->setState(0);
-    emit addLog(QString::number(serial_server->writeToSerial(Motor::MSG_MOTOR_STOP)));
-}
-
-void MainWindow::on_btn_relay1_open_clicked()
-{
-    ui->btn_relay1_open->setStyleSheet(BACKGROUND_COLOR_GREEN);
-    ui->btn_relay1_close->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    relays->setState(1);
-    serial_server->writeToSerial(Relays::MSG_RELAY_OPEN);
-}
-
-void MainWindow::on_btn_relay1_close_clicked()
-{
-    ui->btn_relay1_close->setStyleSheet(BACKGROUND_COLOR_GREEN);
-    ui->btn_relay1_open->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    relays->setState(0);
-    serial_server->writeToSerial(Relays::MSG_RELAY_CLOSE);
-}
-
 void MainWindow::processMsgFromSerial(QByteArray msg)
 {
-    emit addLog(msg.toHex());
+    if(msg.length() < 6)
+        return;
     //温湿亮度
     if(msg[3] == 0x02 && msg[4] == 0x01)
     {
@@ -200,66 +136,156 @@ void MainWindow::processMsgFromSerial(QByteArray msg)
         ui->label_ultra->setText(QString::number(len));
         ultra->setState(len);
     }
-}
-
-void MainWindow::on_btn_pwm_close_clicked()
-{
-    ui->btn_pwm_close->setStyleSheet(BACKGROUND_COLOR_GREEN);
-    ui->btn_pwm_open->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    pwm->setState(0);
-    Pwm::MSG_PWM[4] = 0x00;
-    Pwm::MSG_PWM[5] = 0x50;
-    serial_server->writeToSerial(Pwm::MSG_PWM);
-}
-
-void MainWindow::on_btn_pwm_open_clicked()
-{
-    ui->btn_pwm_open->setStyleSheet(BACKGROUND_COLOR_GREEN);
-    ui->btn_pwm_close->setStyleSheet(BACKGROUND_COLOR_BLACK);
-    pwm->setState(1);
-    unsigned char range = Pwm::RANGE[pwm->getRange()];
-    Pwm::MSG_PWM[4] = range;
-    Pwm::MSG_PWM[5] = 0x50 + range;
-    serial_server->writeToSerial(Pwm::MSG_PWM);
-}
-
-void MainWindow::onPwmValueChange(int value)
-{
-    pwm->setRange(value);
-    if(pwm->getState())//如果是打开的，发送消息改变值，否则不执行
-    {
-        unsigned char range = Pwm::RANGE[value];
-        Pwm::MSG_PWM[4] = range;
-        Pwm::MSG_PWM[5] = 0x50 + range;
-        serial_server->writeToSerial(Pwm::MSG_PWM);
-    }
+    emit addLog(msg.toHex());
 }
 
 void MainWindow::processMsgFromSocket(QString msg)
 {
     //测试用，无协议
     if(msg == "0")
+        changeMotor(0);
+    if(msg == "1")
+        changeMotor(1);
+    if(msg == "2")
+        changeMotor(2);
+}
+
+void MainWindow::changePwm(int value)
+{
+    pwm->setState(value);
+    unsigned char range = Pwm::RANGE[value];
+    Pwm::MSG_PWM[4] = range;
+    Pwm::MSG_PWM[5] = 0x50 + range;
+    if(-1 == serial_server->writeToSerial(Pwm::MSG_PWM))
     {
-        ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_GREEN);
-        ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_BLACK);
-        ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_BLACK);
-        serial_server->writeToSerial(Motor::MSG_MOTOR_STOP);
+        emit addLog("failed");
+        return;
+    }
+    emit addLog("success");
+}
+
+void MainWindow::on_btn_relay_clicked()
+{
+    changeRelay(relays->getState());
+}
+
+void MainWindow::changeRelay(int state)
+{
+    //对传入的参数取反操作
+    if(1 == state)
+    {
+        if(-1 == serial_server->writeToSerial(Relays::MSG_RELAY_CLOSE))
+        {
+            emit addLog("failed");
+            return;
+        }
+        relays->setState(0);
+        ui->btn_relay->setStyleSheet(BACKGROUND_COLOR_WHITE);
+        ui->btn_relay->setText("open");
+        emit addLog("success");
+    }
+    else if(0 == state)
+    {
+        if(-1 == serial_server->writeToSerial(Relays::MSG_RELAY_OPEN))
+        {
+            emit addLog("failed");
+            return;
+        }
+        relays->setState(1);
+        ui->btn_relay->setStyleSheet(BACKGROUND_COLOR_GREEN);
+        ui->btn_relay->setText("close");
+        emit addLog("success");
+    }
+}
+
+void MainWindow::on_btn_serial_clicked()
+{
+    changeSerial(serial_server->getComState());
+}
+
+void MainWindow::changeSerial(int state)
+{
+    //对传入的参数取反操作
+    if(1 == state)
+    {
+        if(serial_server->closeCom())
+        {
+            ui->btn_serial->setText("open");
+            ui->btn_serial->setStyleSheet(BACKGROUND_COLOR_WHITE);
+            emit addLog("close serial port success");
+        }
+        else
+            emit addLog("close serial port failed");
+
+    }
+    else if(0 == state)
+    {
+        if(serial_server->openCom())
+        {
+            ui->btn_serial->setText("close");
+            ui->btn_serial->setStyleSheet(BACKGROUND_COLOR_GREEN);
+            emit addLog("open serial port success");
+        }
+        else
+            emit addLog("open serial port failed");
+
+    }
+}
+
+void MainWindow::on_btn_motor_f_clicked()
+{
+    changeMotor(1);
+}
+
+void MainWindow::on_btn_motor_b_clicked()
+{
+    changeMotor(2);
+}
+
+void MainWindow::on_btn_motor_stop_clicked()
+{
+    changeMotor(0);
+}
+
+void MainWindow::changeMotor(int state)
+{
+    if(0 == state)
+    {
+        if(-1 == serial_server->writeToSerial(Motor::MSG_MOTOR_STOP))
+        {
+            emit addLog("failed");
+            return;
+        }
         motor->setState(0);
+        ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_GREEN);
+        ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_WHITE);
+        ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_WHITE);
+        emit addLog("success");
     }
-    else if(msg == "1")
+    else if(1 == state)
     {
-        ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_GREEN);
-        ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_BLACK);
-        ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_BLACK);
-        serial_server->writeToSerial(Motor::MSG_MOTOR_FORE);
+        if(-1 == serial_server->writeToSerial(Motor::MSG_MOTOR_FORE))
+        {
+            emit addLog("failed");
+            return;
+        }
         motor->setState(1);
+        ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_GREEN);
+        ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_WHITE);
+        ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_WHITE);
+        emit addLog("success");
     }
-    else if(msg == "2")
+    else if(2 == state)
     {
-        ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_GREEN);
-        ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_BLACK);
-        ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_BLACK);
-        serial_server->writeToSerial(Motor::MSG_MOTOR_BACK);
+        if(-1 == serial_server->writeToSerial(Motor::MSG_MOTOR_BACK))
+        {
+            emit addLog("failed");
+            return;
+        }
         motor->setState(2);
+        ui->btn_motor_b->setStyleSheet(BACKGROUND_COLOR_GREEN);
+        ui->btn_motor_f->setStyleSheet(BACKGROUND_COLOR_WHITE);
+        ui->btn_motor_stop->setStyleSheet(BACKGROUND_COLOR_WHITE);
+        emit addLog("success");
     }
 }

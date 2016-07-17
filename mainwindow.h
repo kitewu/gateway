@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QByteArray>
 #include <QString>
+
 #include "serialservice.h"
 #include "socketservice.h"
 #include "temp_humi_light.h"
@@ -18,7 +19,7 @@
 #include "ultra.h"
 
 #define BACKGROUND_COLOR_GREEN "background-color: rgb(0, 255, 0);"
-#define BACKGROUND_COLOR_BLACK "background-color: rgb(255, 255, 255);"
+#define BACKGROUND_COLOR_WHITE "background-color: rgb(255, 255, 255);"
 
 namespace Ui {
 class MainWindow;
@@ -32,18 +33,20 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void updateTempHumiLig();
-
+    void changeMotor(int);
+    void changeRelay(int);
+    void changeSerial(int);
 signals:
     void addLog(QString);
 
 private slots:
     void processMsgFromSerial(QByteArray);
 
-    void on_btn_open_serial_clicked();
+    void processMsgFromSocket(QString);
 
     void showLog(QString);
 
-    void on_btn_close_serial_clicked();
+    void changePwm(int);
 
     void on_btn_motor_f_clicked();
 
@@ -51,17 +54,10 @@ private slots:
 
     void on_btn_motor_stop_clicked();
 
-    void on_btn_relay1_open_clicked();
+    void on_btn_relay_clicked();
 
-    void on_btn_relay1_close_clicked();
+    void on_btn_serial_clicked();
 
-    void on_btn_pwm_close_clicked();
-
-    void on_btn_pwm_open_clicked();
-
-    void onPwmValueChange(int);
-
-    void processMsgFromSocket(QString);
 private:
     Ui::MainWindow *ui;
     SerialService *serial_server;

@@ -19,14 +19,13 @@ public:
     bool closeCom();
     void releaseSerial();
     QTimer* getTimer();
-
+    int getComState();
 signals:
     void receiveMsgFromSerial(QByteArray);
 public slots:
     void readFromSerial();
 private:
     Posix_QextSerialPort *my_com;
-    enum{OPEN, CLOSE};
     int com_state;
     QTimer *read_timer;
 };

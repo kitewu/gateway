@@ -3,7 +3,7 @@
 SerialService::SerialService(QObject *parent) :
     QObject(parent),
     my_com(0),
-    com_state(CLOSE)
+    com_state(0)
 {
     read_timer = new QTimer();
     read_timer->start(READTIME);
@@ -12,17 +12,17 @@ SerialService::SerialService(QObject *parent) :
 
 void SerialService::readFromSerial()
 {
-    if(my_com&&OPEN == com_state)
+    if(my_com && 1 == com_state)
     {
         QByteArray byte = my_com->readAll();
-        if(byte.length() != 0)
+        if(!byte.isEmpty())
             emit receiveMsgFromSerial(byte);
     }
 }
 
 int SerialService::writeToSerial(const QByteArray &byte)
 {
-    if(my_com&&OPEN == com_state)
+    if(my_com && 1 == com_state)
     {
         return my_com->write(byte);
     }
@@ -43,7 +43,7 @@ bool SerialService::openCom()
     my_com->open(QIODevice::ReadWrite);
     if(my_com->isOpen())
     {
-        com_state = OPEN;
+        com_state = 1;
         my_com->setBaudRate(BAUD115200);
         my_com->setDataBits(DATA_8);
         my_com->setParity(PAR_NONE);
@@ -54,18 +54,18 @@ bool SerialService::openCom()
     }
     else
     {
-        com_state = CLOSE;
+        com_state = 0;
         return false;
     }
 }
 
 bool SerialService::closeCom()
 {
-    if(my_com&&CLOSE!=com_state)
+    if(my_com && 0 != com_state)
     {
         my_com->close();
     }
-    com_state = CLOSE;
+    com_state = 0;
     return true;
 }
 
@@ -82,4 +82,9 @@ void SerialService::releaseSerial()
 QTimer* SerialService::getTimer()
 {
     return read_timer;
+}
+
+int SerialService::getComState()
+{
+    return this->com_state;
 }
